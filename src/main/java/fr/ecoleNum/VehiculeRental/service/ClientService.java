@@ -14,14 +14,14 @@ import java.util.Optional;
 @Service
 public class ClientService {
     @Autowired
-    private ClientRepository clients;
+    private ClientRepository clientRepository;
 
     public boolean isAdult(Client client) throws ClientIdNotFoundException {
         return isAdult(client.getId());
     }
 
     public boolean isAdult(Integer id) throws ClientIdNotFoundException {
-        Optional<Client> optionalClient = this.clients.findById(id);
+        Optional<Client> optionalClient = this.clientRepository.findById(id);
 
         if (optionalClient.isEmpty()) throw new ClientIdNotFoundException();
 
@@ -42,4 +42,33 @@ public class ClientService {
     public boolean hasReservationBetween(Timestamp start, Timestamp end) {
         return false;
     }
+
+    public void createClient(Client client) {
+        clientRepository.save(client);
+    }
+
+    public Iterable<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
+
+    public Client getClient(int id) throws ClientIdNotFoundException {
+        Optional<Client> client =  clientRepository.findById(id);
+        if (client.isPresent()) {
+            return client.get();
+        } else {
+            throw new ClientIdNotFoundException();
+        }
+    }
+
+    public Client deleteClient(int id) throws ClientIdNotFoundException {
+        Client client = getClient(id);
+        clientRepository.deleteById(id);
+        return client;
+    }
+
+    public void modifyClient(Client client) throws ClientIdNotFoundException {
+        getClient(client.getId());
+        createClient(client);
+    }
+
 }
