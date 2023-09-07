@@ -1,15 +1,15 @@
 package fr.ecoleNum.VehiculeRental.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Vehicule {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy= GenerationType.IDENTITY )
     private int id;
 
     @Column(unique = true, nullable = false)
@@ -32,6 +32,9 @@ public class Vehicule {
 
     @Column(nullable = false)
     private int taxHorsepower;
+
+    @OneToMany( targetEntity = Reservation.class, mappedBy = "vehicule")
+    private List<Reservation> vehiculeReservations = new ArrayList<>();
 
     public Vehicule(){};
 
@@ -93,5 +96,20 @@ public class Vehicule {
 
     public void setTaxHorsepower(int taxHorsepower) {
         this.taxHorsepower = taxHorsepower;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicule{" +
+                "id=" + id +
+                ", registration='" + registration + '\'' +
+                ", model='" + model + '\'' +
+                ", brand='" + brand + '\'' +
+                ", color='" + color + '\'' +
+                ", reservationRate=" + reservationRate +
+                ", kmRate=" + kmRate +
+                ", taxHorsepower=" + taxHorsepower +
+                ", vehiculeReservations=" + vehiculeReservations +
+                '}';
     }
 }

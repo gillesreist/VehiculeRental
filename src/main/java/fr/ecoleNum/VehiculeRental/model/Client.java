@@ -1,19 +1,18 @@
 package fr.ecoleNum.VehiculeRental.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 public class Client {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue( strategy= GenerationType.IDENTITY )
     private Integer id;
 
     @Column(nullable = false)
@@ -26,6 +25,8 @@ public class Client {
     @Column(unique = true, nullable = false)
     private Integer drivingLicenseNumber;
 
+    @OneToMany( targetEntity = Reservation.class, mappedBy = "client")
+    private List<Reservation> clientReservations = new ArrayList<>();
     public Client(){}
     public Integer getId() {
         return id;

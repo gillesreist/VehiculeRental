@@ -59,4 +59,13 @@ public class Reservation {
         this.endDateReservation = endDateReservation;
     }
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "client=" + client +
+                ", vehicule=" + vehicule +
+                ", startDateReservation=" + startDateReservation +
+                ", endDateReservation=" + endDateReservation +
+                '}';
+    }
 }
