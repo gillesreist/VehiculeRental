@@ -2,22 +2,32 @@ package fr.ecoleNum.VehiculeRental.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
-public class Reservation {
+@Entity @IdClass(ReservationId.class)
+public class Reservation implements Serializable {
 
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "idClient", nullable = false)
+    @JoinColumn( nullable = false)
     private Client client;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "idVehicule", nullable = false)
+    @JoinColumn( nullable = false)
     private Vehicule vehicule;
 
+    public ReservationId getId() {
+        return new ReservationId(client, vehicule, new Timestamp(0));
+    }
+    public void setId(ReservationId id) {
+        this.client = id.getClient();
+        this.vehicule = id.getVehicule();
+    }
+
+    @Id
     @Column(nullable = false)
     private Timestamp startDateReservation;
 
