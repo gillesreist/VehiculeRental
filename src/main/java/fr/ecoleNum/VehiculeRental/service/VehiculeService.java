@@ -42,9 +42,30 @@ public class VehiculeService {
         return vehicule;
     }
 
-    public void modifyVehicule(int id, Vehicule vehicule) throws VehiculeIdNotFoundException {
-       getVehicule(id);
-       vehicule.setId(id);
+    public void modifyVehicule(int id, Vehicule newProperties) throws VehiculeIdNotFoundException {
+       Vehicule vehicule = getVehicule(id);
+        if (newProperties.getBrand()!=null){
+            vehicule.setBrand(newProperties.getBrand());
+        }
+        if (newProperties.getColor()!=null){
+            vehicule.setColor(newProperties.getColor());
+        }
+        if (newProperties.getModel()!=null){
+            vehicule.setModel(newProperties.getModel());
+        }
+        if (newProperties.getRegistration()!=null){
+            vehicule.setRegistration(newProperties.getRegistration());
+        }
+        if (newProperties.getKmRate()!=0){
+            vehicule.setKmRate(newProperties.getKmRate());
+        }
+        if (newProperties.getReservationRate()!=0){
+            vehicule.setReservationRate(newProperties.getReservationRate());
+        }
+        if (newProperties.getTaxHorsepower()!=0){
+            vehicule.setTaxHorsepower(newProperties.getTaxHorsepower());
+        }
+
        createVehicule(vehicule);
     }
 
