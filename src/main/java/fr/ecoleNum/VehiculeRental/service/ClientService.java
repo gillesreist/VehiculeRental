@@ -19,18 +19,16 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     public boolean isAdult(Client client) throws ClientIdNotFoundException {
-        return isAdult(client.getId());
-    }
-
-    public boolean isAdult(Integer id) throws ClientIdNotFoundException {
-        Client client = getClient(id);
-
-        // System.currentTimeMillis = function who return today date
         Timestamp clientBirth = client.getBirthDate();
 
         final int majorityAge = 18;
 
         return getAge(clientBirth) >= 18;
+    }
+
+    public boolean isAdult(Integer id) throws ClientIdNotFoundException {
+        Client client = getClient(id);
+        return isAdult(client);
     }
 
     public boolean hasReservationBetween(Timestamp start, Timestamp end) {
