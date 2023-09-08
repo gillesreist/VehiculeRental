@@ -30,6 +30,13 @@ public class DateFunctions {
 
     public static boolean areDistinctPeriods(Timestamp period1Start, Timestamp period1End, Timestamp period2Start, Timestamp period2End) {
 
-        return false;
+        if(period1Start.after(period1End) || period2Start.after(period2End)) {
+            throw new InvalidPeriodDateException();
+        }
+
+        boolean period1IsBeforePeriod2 = period1End.before(period2Start);
+        boolean period2IsBeforePeriod1 = period2End.before(period1Start);
+
+        return period2IsBeforePeriod1 || period1IsBeforePeriod2;
     }
 }
