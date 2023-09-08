@@ -1,5 +1,7 @@
 package fr.ecoleNum.VehiculeRental.service.util;
 
+import fr.ecoleNum.VehiculeRental.exception.InvalidPeriodDateException;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -24,5 +26,10 @@ public class DateFunctions {
             age--;
         }
         return age;
+    }
+
+    public static boolean areDistinctPeriods(Timestamp period1Start, Timestamp period1End, Timestamp period2Start, Timestamp period2End) {
+
+        return false;
     }
 }
