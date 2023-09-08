@@ -1,7 +1,9 @@
 package fr.ecoleNum.VehiculeRental.service;
 
 import fr.ecoleNum.VehiculeRental.exception.ClientIdNotFoundException;
+import fr.ecoleNum.VehiculeRental.exception.VehiculeIdNotFoundException;
 import fr.ecoleNum.VehiculeRental.model.Client;
+import fr.ecoleNum.VehiculeRental.model.Vehicule;
 import fr.ecoleNum.VehiculeRental.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +23,7 @@ public class ClientService {
     }
 
     public boolean isAdult(Integer id) throws ClientIdNotFoundException {
-        Optional<Client> optionalClient = this.clientRepository.findById(id);
-
-        if (optionalClient.isEmpty()) throw new ClientIdNotFoundException();
-
-        Client client = optionalClient.get();
+        Client client = getClient(id);
 
         // System.currentTimeMillis = function who return today date
         Timestamp actualDate = new Timestamp(System.currentTimeMillis());
@@ -56,7 +54,7 @@ public class ClientService {
         if (client.isPresent()) {
             return client.get();
         } else {
-            throw new ClientIdNotFoundException();
+            throw new ClientIdNotFoundException("Client not found.");
         }
     }
 
@@ -66,8 +64,9 @@ public class ClientService {
         return client;
     }
 
-    public void modifyClient(Client client) throws ClientIdNotFoundException {
-        getClient(client.getId());
+    public void modifyClient(int id, Client client) throws ClientIdNotFoundException {
+        getClient(id);
+        client.setId(id);
         createClient(client);
     }
 
