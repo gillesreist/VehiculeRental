@@ -32,7 +32,7 @@ public class VehiculeService {
         if (vehicule.isPresent()) {
             return vehicule.get();
         } else {
-            throw new VehiculeIdNotFoundException();
+            throw new VehiculeIdNotFoundException("Vehicule not found.");
         }
     }
 
@@ -42,9 +42,10 @@ public class VehiculeService {
         return vehicule;
     }
 
-    public void modifyVehicule(Vehicule vehicule) throws VehiculeIdNotFoundException {
-        getVehicule(vehicule.getId());
-        createVehicule(vehicule);
+    public void modifyVehicule(int id, Vehicule vehicule) throws VehiculeIdNotFoundException {
+       getVehicule(id);
+       vehicule.setId(id);
+       createVehicule(vehicule);
     }
 
 
