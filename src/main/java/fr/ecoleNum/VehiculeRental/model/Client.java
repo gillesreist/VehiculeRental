@@ -28,6 +28,14 @@ public class Client {
     @OneToMany( targetEntity = Reservation.class, mappedBy = "client")
     private List<Reservation> clientReservations = new ArrayList<>();
     public Client(){}
+    public Client(Timestamp birth) {
+        this.id = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.birthDate = birth;
+        this.drivingLicenseNumber = 0;
+        this.clientReservations = null;
+    }
     public Integer getId() {
         return id;
     }
