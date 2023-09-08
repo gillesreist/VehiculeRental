@@ -5,6 +5,7 @@ import fr.ecoleNum.VehiculeRental.model.Client;
 import fr.ecoleNum.VehiculeRental.repository.ClientRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,20 +28,21 @@ public class ClientServiceTest {
 
     @Test
     public void testIsMajor() {
-        //different birthDate : 08/09/2000, 08/09/2010, 08/09/2020, 08/09/2030 Exception
         Client[] clientTested = {
-                new Client(new Timestamp(968405192)),
-                new Client(new Timestamp(1283937992)),
-                new Client(new Timestamp(1599549717)),
-                new Client(new Timestamp(1915082517)),
-                null
+                new Client(Timestamp.valueOf("2000-09-08 00:00:00.0")),
+                new Client(Timestamp.valueOf("2010-09-08 00:00:00.0")),
+                new Client(Timestamp.valueOf("2020-09-08 00:00:00.0")),
+                new Client(Timestamp.valueOf("2030-09-08 00:00:00.0")),
+                null,
+                new Client(new Timestamp(System.currentTimeMillis()))
         };
         Boolean[] resultExpected = {
                 true,
                 false,
                 false,
                 false,
-                null
+                null,
+                false
         };
         for (int i = 0; i < clientTested.length; i++) {
             when(clientMockRepo.findById(i)).thenReturn(Optional.ofNullable(clientTested[i]));
@@ -51,7 +53,8 @@ public class ClientServiceTest {
 
                 boolean expected = Boolean.TRUE.equals(resultExpected[i]);
                 boolean obtained = clientService.isAdult(i);
-                assert( obtained == expected);
+                assertEquals (expected, obtained,"testIsMajor: test " + (i+1) + " failed.");
+
             } catch (ClientIdNotFoundException e) {
                 assert (resultExpected[i] == null);
             }
