@@ -3,8 +3,10 @@ package fr.ecoleNum.VehiculeRental.controller;
 import fr.ecoleNum.VehiculeRental.exception.ClientIdNotFoundException;
 import fr.ecoleNum.VehiculeRental.exception.VehiculeIdNotFoundException;
 import fr.ecoleNum.VehiculeRental.model.Client;
+import fr.ecoleNum.VehiculeRental.model.Reservation;
 import fr.ecoleNum.VehiculeRental.model.Vehicule;
 import fr.ecoleNum.VehiculeRental.service.ClientService;
+import fr.ecoleNum.VehiculeRental.service.ReservationService;
 import fr.ecoleNum.VehiculeRental.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private VehiculeService vehiculeService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     //@Operation(summary = "Créer un véhicule", description = "Rajoute un nouvel objet Vehicule à la base de données.")
     @PostMapping ("/vehicule")
@@ -115,6 +120,17 @@ public class AdminController {
             System.err.println(e.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("reservation")
+    public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
+        reservationService.createReservation(reservation);
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/reservations")
+    public ResponseEntity<?> getAllReservations() {
+        return new ResponseEntity<>(reservationService.getAllReservations(), HttpStatus.OK);
     }
 
 
